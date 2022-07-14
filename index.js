@@ -1,13 +1,15 @@
 
 require("dotenv").config();
 require("./server/db/config");
+const cors = require("cors");
 const express= require ("express");
-const server =express();
-const hbs= require("express-handlebars");
+const server = express();
+const hbs = require("express-handlebars");
 const path = require("path")
-const port = process.env.port || 3000;
+const PORT = process.env.PORT 
 server.use(express.json())
 server.use(express.urlencoded({extended : true}))
+server.use(cors())
 server.use(express.static("storage"))
 server.use('/css',express.static(path.join (__dirname,'node_modules/bootstrap/dist/css')))
 server.use('/js',express.static(path.join (__dirname,'node_modules/bootstrap/dist/js')))
@@ -15,9 +17,9 @@ server.set("view engine","hbs");
 server.set("views", path.join(__dirname, "views"))
 server.engine("hbs", hbs.engine({ extname: "hbs"}))
 
-server.listen(port,(err) =>{
+server.listen(PORT,(err) =>{
     err? console.warn(`Hubo un error {
-        message: ${err} }`) : console.log(`Servidor corre en http://localhost:${port}`)
+        message: ${err} }`) : console.log(`Servidor corre en http://localhost:${PORT}`)
 })
 
 server.get("/", (req, res) => {
